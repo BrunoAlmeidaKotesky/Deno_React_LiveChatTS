@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "lib": [
       "dom",
       "dom.iterable",
@@ -16,10 +16,19 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "sourceMap": true,
+    "declaration": true,
+    "experimentalDecorators": true,
     "noEmit": true,
     "jsx": "react",
     "noImplicitAny": false
   },
+  "types": [
+    "es6-promise",
+    "webpack-env",
+    "reflect-metadata",
+    "jest"
+  ],
   "include": [
     "src"
   ]

@@ -1,4 +1,4 @@
-export enum ChatActions{
+export enum ChatActions {
     SET_NAME = 'SET_NAME',
     SET_GROUP = 'SET_GROUP'
 }

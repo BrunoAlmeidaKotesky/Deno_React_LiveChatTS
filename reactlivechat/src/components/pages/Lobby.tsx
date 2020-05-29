@@ -2,12 +2,13 @@ import React, {useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import GroupOptions from '../GroupOptions';
 import '../styles/chat.css';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import { RootState } from '../../models/redux/store';
-import { setGroup } from '../../models/redux/actions/chatActions';
+import { setName } from '../../models/redux/actions/chatActions';
 
 export default function Lobby(){
     const history = useHistory();
+    const dispatch = useDispatch();
     const {userInfo: {group, name}} = useSelector((state: RootState) => state.chatReducer);
 
     const joinChat = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -21,7 +22,7 @@ export default function Lobby(){
     </div>
     <div className="form-content">
       <div className="input-group">
-        <input type="text" placeholder="Enter your name" name="name" onChange={({currentTarget}) => setGroup(currentTarget.value)}/>
+        <input type="text" placeholder="Enter your name" name="name" onChange={({currentTarget}) => dispatch(setName(currentTarget.value))}/>
       </div>
     <GroupOptions/>
     </div>

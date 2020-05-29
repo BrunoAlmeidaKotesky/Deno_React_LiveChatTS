@@ -1,10 +1,10 @@
-import { IStore } from './../../interfaces/IStore';
+import {action} from 'typesafe-actions';
 import {ChatReturns, ChatActions} from './actionTypes';
 
 
 export function setGroup(group: string):ChatReturns {
-    return {type: ChatActions.SET_GROUP, payload: group};
+    return action(ChatActions.SET_GROUP, group);
 }
 export function setName(name: string):ChatReturns {
-    return {type: ChatActions.SET_NAME, payload: name};
+    return action(ChatActions.SET_NAME, name);
 }
