@@ -5,14 +5,14 @@ console.log({a: 2})
 listenAndServe({ port: 3001 }, async (req) => {
   if (req.method === "GET" && req.url === "/ws") {
     if (acceptable(req)) {
-      const {chat} = new Chat();
+      const chat = new Chat();
       const accepted = await acceptWebSocket({
         conn: req.conn,
         bufReader: req.r,
         bufWriter: req.w,
         headers: req.headers,
       });
-      chat(accepted);
+      chat.chat(accepted);
     }
   }
 });
