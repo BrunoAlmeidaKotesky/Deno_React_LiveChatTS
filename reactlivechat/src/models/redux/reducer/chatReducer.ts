@@ -7,7 +7,9 @@ export const chatReducer = (state = initialState, action:ChatReturns):IStore => 
         case ChatActions.SET_GROUP:
             return{...state, userInfo: {name: state.userInfo.name, group: action.payload}};
         case ChatActions.SET_NAME:
-            return{...state, userInfo: {name: action.payload, group: state.userInfo.group}}
+            return{...state, userInfo: {name: action.payload, group: state.userInfo.group}};
+        case ChatActions.LEAVE_CHAT:
+            return{...state, userInfo: {name: '', group: ''}};
         default: return state;
     }
 }

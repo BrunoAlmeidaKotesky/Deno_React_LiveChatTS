@@ -13,7 +13,7 @@ export default function Lobby(){
 
     const joinChat = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       if(group !== '' && name !== '')
-        history.push(`/chat?name=${group}&group=${group}`);
+        history.push(`/chat?name=${name}&group=${group}`);
     }
 
     return(<div className="login-form">
