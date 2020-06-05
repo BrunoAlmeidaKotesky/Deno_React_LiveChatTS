@@ -33,17 +33,18 @@ export default class Chat {
                     //Pega os usuarios do groupsMap
                     const users = groupMap.get(event.groupName) || [];
                     users.push(userObj);
-                    console.log(users);
                     groupMap.set(event.groupName, users);
                     //emite aos usuarios no grupo que um novo usuario entrou
                     this.emitUserList(event.groupName);
+                    console.log(event);
                     //emite todas as mensagens enviadas anteriormente enviadas naquele grupo anteriormente
                     this.emitPreviousMessages(event.groupName, ws);
                     break;
                 }
                 case SocketEvents.MESSAGE:{
-                    console.log('message received');
+                    console.log('message received at: ' + new Date());
                     userObj = userMap.get(userId) as IUser;
+                    console.log(userObj);
                     const message:IMessage = {
                         userId,
                         name: userObj.name,
