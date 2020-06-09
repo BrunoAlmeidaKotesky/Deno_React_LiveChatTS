@@ -23,7 +23,12 @@ sendMessageForm.onsubmit = (ev) => {
     event: "message",
     data: messageInput.value,
   };
+  const rEvent = {
+    event: 'createRoom',
+    data: 'Sala 1'
+  }
   ws.send(JSON.stringify(event));
+  ws.send(JSON.stringify(rEvent));
   messageInput.value = "";
 };
 

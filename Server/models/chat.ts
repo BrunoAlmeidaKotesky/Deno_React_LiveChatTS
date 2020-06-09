@@ -4,7 +4,7 @@ import { IUser, IGroup, IUserDisplay, SocketEvents, IConnectEvent, IMessage } fr
 
 const userMap = new Map<string, IUser>();
 const groupMap = new Map<string, IGroup>();
-const messagesMap = new Map<string, IMessage>();
+const messagesMap = new Map<string, IMessage[]>();
 
 export default class Chat {
 
@@ -36,7 +36,6 @@ export default class Chat {
                     groupMap.set(event.groupName, users);
                     //emite aos usuarios no grupo que um novo usuario entrou
                     this.emitUserList(event.groupName);
-                    console.log(event);
                     //emite todas as mensagens enviadas anteriormente enviadas naquele grupo anteriormente
                     this.emitPreviousMessages(event.groupName, ws);
                     break;
@@ -44,13 +43,18 @@ export default class Chat {
                 case SocketEvents.MESSAGE:{
                     console.log('message received at: ' + new Date());
                     userObj = userMap.get(userId) as IUser;
-                    console.log(userObj);
                     const message:IMessage = {
                         userId,
                         name: userObj.name,
                         message: event.data,
                     }
-                    this.emitMessage(userObj.groupName, message, userId);
+                    const messages = messagesMap.get(userObj.groupName) || [];
+                    if(Array.isArray(messages)){
+                        messages.push(message);
+                        messagesMap.set(userObj.groupName, messages);
+                        this.emitMessage(userObj.groupName, message, userId);
+                    }
+                   
                 }
             }
         }
@@ -70,7 +74,7 @@ export default class Chat {
                 event: 'users',
                 data: this.getDisplayUsers(groupName)
             }
-
+            
             user.ws.send(JSON.stringify(event));
         }
     }
@@ -96,6 +100,7 @@ export default class Chat {
           event: "previousMessages",
           data: messages,
         };
+        console.log(event);
         ws.send(JSON.stringify(event));
       }
 

@@ -49,19 +49,30 @@ export default function useChatSocket() {
     event = JSON.parse(event.data);
     console.log(event);
     switch (event.event) {
-      case SocketEvents.USERS:
+      case SocketEvents.USERS:{
         setCount(event.data.length);
         setUserInfo(event.data);
         break;
-      case SocketEvents.MESSAGE:
-       let chatMsgMenu = document.querySelector("#chatMessages") as HTMLDivElement;
+      }
+      case SocketEvents.MESSAGE:{
+        let chatMsgMenu = document.querySelector("#chatMessages") as HTMLDivElement;
         if(chatMsgMenu){
           const scrollToBottom = Math.floor(chatMsgMenu.offsetHeight + chatMsgMenu.scrollTop) === chatMsgMenu.scrollHeight;
           if(scrollToBottom)
              chatMsgMenu.scrollTop = 10000000;
         }
         break;
-      
+      }
+      case SocketEvents.PREV_MESSAGE: {
+        const prevMessages: IMessage[] = event.data;
+        console.log(`Mensagens: `, messages, 'Evento: ', event.data)
+        if(Array.isArray(prevMessages)){
+          prevMessages.forEach((message) => {
+            addMessage(message as unknown as MessageEvent);
+          })
+        }
+        break;
+      }
     }
   }
 
@@ -75,8 +86,11 @@ export default function useChatSocket() {
   useEffect(()=> {
     if(ws.current !== null){
     ws.current.onmessage = (msg: MessageEvent) => {
-      const {data} = JSON.parse(msg.data);
-      addMessage(data);
+      const {data, event} = JSON.parse(msg.data);
+      console.log(data, event);
+      if(event === SocketEvents.MESSAGE){
+        addMessage(data);
+      }
     }
   }
   },[]);
