@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useLocation, useHistory } from 'react-router';
-import { SocketEvents, IConnectEvent, IMessageEvent, IUserEvent, IMessage } from '../../models/interfaces/IEvents';
+import { SocketEvents, IMessage, IEvents } from '../../models/interfaces/IEvents';
 import { leaveGroup } from '../../models/redux/actions/chatActions';
 import { useDispatch } from 'react-redux';
 
@@ -9,7 +9,7 @@ export default function useChatSocket() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [msg, setMsg] = useState('');
-  const [messages, setMessages] = useState<any[]>([]);
+  const [messages, setMessages] = useState<IMessage[]>([]);
   const [chatUsersCount, setCount] = useState(1);
   const [users, setUserInfo] = useState([]);
   const ws = useRef<WebSocket | null>(null);
@@ -25,7 +25,7 @@ export default function useChatSocket() {
       return { group, name };
   }
 
-  const addMessage = useCallback((newMessage: MessageEvent) => setMessages(prevMessages => [...prevMessages, newMessage]), [messages]);
+  const addMessage = useCallback((newMessage: IMessage) => setMessages(prevMessages => [...prevMessages, newMessage]), [messages]);
 
   function onConnectionOpen() {
     console.log(`Connection Opened`);
@@ -68,7 +68,7 @@ export default function useChatSocket() {
         console.log(`Mensagens: `, messages, 'Evento: ', event.data)
         if(Array.isArray(prevMessages)){
           prevMessages.forEach((message) => {
-            addMessage(message as unknown as MessageEvent);
+            addMessage(message);
           })
         }
         break;
@@ -86,11 +86,11 @@ export default function useChatSocket() {
   useEffect(()=> {
     if(ws.current !== null){
     ws.current.onmessage = (msg: MessageEvent) => {
-      const {data, event} = JSON.parse(msg.data);
-      console.log(data, event);
-      if(event === SocketEvents.MESSAGE){
-        addMessage(data);
-      }
+      const {data, event}: IEvents = JSON.parse(msg.data);
+      if(data && event)
+       if(event === SocketEvents.MESSAGE)
+         addMessage(data);
+      
     }
   }
   },[]);
@@ -110,6 +110,11 @@ export default function useChatSocket() {
         ws.current.close();
     };
   }, [ws]);
+
+  
+  useEffect(()=> {
+    console.log(messages);
+  },[messages]);
 
   return { onMessageSent, chatUsersCount, users, setMsg, msg, messages, leaveChat }
 }

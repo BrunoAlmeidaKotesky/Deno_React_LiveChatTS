@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 
 type ChatHeaderProps = {group: string, onLeave: ()=> void;}
-const ChatHeader = memo(({group, onLeave}: ChatHeaderProps) => {
+const ChatHeader = ({group, onLeave}: ChatHeaderProps) => {
     return(<div className="chat-header">
     <div id="groupName" className="group-name">
       {group}
@@ -12,6 +12,6 @@ const ChatHeader = memo(({group, onLeave}: ChatHeaderProps) => {
         }}>Leave group</button>
     </div>
   </div>);
-});
+};
 
-export default ChatHeader;
+export default memo(ChatHeader);

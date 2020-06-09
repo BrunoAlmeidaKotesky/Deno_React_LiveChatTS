@@ -6,10 +6,10 @@ export enum SocketEvents{
 }
 
 export interface IEvents{
-    event: SocketEvents;
-    groupName: string;
-    name: NonNullable<string>;
-    data?: NonNullable<string>;
+    event?: SocketEvents;
+    groupName?: string;
+    name?: NonNullable<string>;
+    data?: NonNullable<IMessage>;
 }
 
 export interface IUserEvent{

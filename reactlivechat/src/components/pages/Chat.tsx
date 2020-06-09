@@ -12,10 +12,6 @@ export default function Chat(){
     const { group } = useSelector((state: RootState)=>state.chatReducer.userInfo);
     const {msg, setMsg, onMessageSent, users, chatUsersCount, messages, leaveChat} = useChatSocket();
 
-    useEffect(()=> {
-      console.log(messages);
-    },[messages]);
-
     return(<div className="chat-container">
     <ChatSidebar data={users} chatUserCount={chatUsersCount}/>
     <div className="chat-main">
