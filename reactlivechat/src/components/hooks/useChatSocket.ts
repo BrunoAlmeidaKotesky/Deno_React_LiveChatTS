@@ -51,9 +51,17 @@ export default function useChatSocket() {
     event = JSON.parse(event.data);
     console.log(event);
     switch (event.event) {
-      case "users":
+      case SocketEvents.USERS:
         setCount(event.data.length);
         setUserInfo(event.data);
+        break;
+      case SocketEvents.MESSAGE:
+       let chatMsgMenu = document.querySelector("#chatMessages") as HTMLDivElement;
+        if(chatMsgMenu){
+          const scrollToBottom = Math.floor(chatMsgMenu.offsetHeight + chatMsgMenu.scrollTop) === chatMsgMenu.scrollHeight;
+          if(scrollToBottom)
+             chatMsgMenu.scrollTop = 10000000;
+        }
         break;
       
     }
