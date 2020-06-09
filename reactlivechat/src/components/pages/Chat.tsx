@@ -1,19 +1,16 @@
 import React, { useEffect } from 'react';
-import {useHistory} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import '../styles/chat.css';
 import ChatSidebar from '../ChatSidebar';
 import ChatFooter from '../ChatFooter';
 import ChatHeader from '../ChatHeader';
 import useChatSocket from '../hooks/useChatSocket';
-import {leaveGroup} from '../../models/redux/actions/chatActions';
 import { RootState } from '../../models/redux/store';
 import Message from '../Message';
 
 export default function Chat(){
-    const history = useHistory();
     const { group } = useSelector((state: RootState)=>state.chatReducer.userInfo);
-    const {msg,setMsg, onMessageSent, users, chatUsersCount, messages, setMessages, leaveChat} = useChatSocket();
+    const {msg, setMsg, onMessageSent, users, chatUsersCount, messages, leaveChat} = useChatSocket();
 
     useEffect(()=> {
       console.log(messages);

@@ -1,6 +1,9 @@
 import React, { memo } from 'react';
+import { RDispatch, RForm} from '../models/types/index';
 
-const ChatFooter = ({onMessageSent, msg, setMsg}) => {
+type ChatFooterProps = {onMessageSent: (ev: RForm) => void, 
+                        msg: string, setMsg: RDispatch<string>}
+const ChatFooter = memo(({onMessageSent, msg, setMsg}:ChatFooterProps) => {
     return (
         <div className="chat-footer">
         <form id="messageSendForm" onSubmit={onMessageSent}>
@@ -9,6 +12,6 @@ const ChatFooter = ({onMessageSent, msg, setMsg}) => {
             <button>Send</button>
         </form>
         </div>);
-}
+});
 
-export default memo(ChatFooter);
+export default ChatFooter

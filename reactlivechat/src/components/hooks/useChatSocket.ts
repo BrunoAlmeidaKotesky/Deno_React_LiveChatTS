@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import io from 'socket.io-client';
 import { useLocation, useHistory } from 'react-router';
-import { IUserInfo } from '../../models/interfaces/IStore';
-import { SocketEvents, IConnectEvent, REvent, IMessageEvent, IUserEvent, IMessage } from '../../models/interfaces/IEvents';
+import { SocketEvents, IConnectEvent, IMessageEvent, IUserEvent, IMessage } from '../../models/interfaces/IEvents';
 import { leaveGroup } from '../../models/redux/actions/chatActions';
 import { useDispatch } from 'react-redux';
 
@@ -99,5 +97,5 @@ export default function useChatSocket() {
     };
   }, [ws]);
 
-  return { onMessageSent, chatUsersCount, users, setUserInfo, setMsg, msg, setMessages, messages, leaveChat }
+  return { onMessageSent, chatUsersCount, users, setMsg, msg, messages, leaveChat }
 }

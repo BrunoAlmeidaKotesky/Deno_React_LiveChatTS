@@ -24,6 +24,4 @@ export interface IMessage{
 }
 
 export type IConnectEvent = Omit<IEvents, 'data'>;
-export type IMessageEvent = Omit<IEvents, 'groupName'|'name'>
-export type REvent = React.MouseEvent<HTMLButtonElement, MouseEvent>
-export type RTarget = EventTarget & HTMLInputElement;
+export type IMessageEvent = Omit<IEvents, 'groupName'|'name'>;
